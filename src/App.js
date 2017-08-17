@@ -2,7 +2,7 @@ import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 import sortBy from 'sort-by'
-
+import ListBooks from './ListBooks.js'
 
 
 class BooksApp extends React.Component {
@@ -13,7 +13,8 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    showSearchPage: false
+    showSearchPage: false,
+    books: []
 
   }
 
@@ -23,12 +24,16 @@ class BooksApp extends React.Component {
   })
 }
 
+
+
   render() {
 
 
     return (
 
       <div className="app">
+
+
         {this.state.showSearchPage ? (
           <div className="search-books">
             <div className="search-books-bar">
@@ -59,107 +64,22 @@ class BooksApp extends React.Component {
               </h1>
             </div>
 
+              <ListBooks
+                books={this.state.books}
+                shelf= "currentlyReading"
+                shelfTitle = "Currently Reading"
+              />
+              <ListBooks
+                books={this.state.books}
+                shelf= "wantToRead"
+                shelfTitle = "Want to Read"
+              />
+              <ListBooks
+                books={this.state.books}
+                shelf= "read"
+                shelfTitle = "Read"
+              />
 
-            {this.state.books && console.log(this.state.books)
-
-              }
-
-            <div className="list-books-content">
-              <div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Currently Reading</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-
-                    {this.state.books && this.state.books.filter((book)=> book.shelf === "currentlyReading").map((book)=>
-                              <li>
-                                  <div className="book">
-                                    <div className="book-top">
-                                      <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}></div>
-                                      <div className="book-shelf-changer">
-                                          <select key={book.id}>
-                                              <option value="none" disabled>Move to...</option>
-                                              <option value={book.shelf}>{book.shelf}</option>
-                                              <option value="wantToRead">Want to Read</option>
-                                              <option value="read">Read</option>
-                                              <option value="none">None</option>
-                                            </select>
-                                      </div>
-                                    </div>
-                                    <div className="book-title">{book.title}</div>
-                                  <div className="book-authors">{book.authors}</div>
-                                </div>
-                              </li>
-
-                    )
-
-
-
-                }
-                    </ol>
-                  </div>
-                </div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Want to Read</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-                    {this.state.books && this.state.books.filter((book)=> book.shelf === "wantToRead").map((book)=>
-                              <li>
-                                  <div className="book">
-                                    <div className="book-top">
-                                      <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}></div>
-                                      <div className="book-shelf-changer">
-                                          <select key={book.id}>
-                                              <option value="none" disabled>Move to...</option>
-                                              <option value={book.shelf}>{book.shelf}</option>
-                                              <option value="wantToRead">Want to Read</option>
-                                              <option value="read">Read</option>
-                                              <option value="none">None</option>
-                                            </select>
-                                      </div>
-                                    </div>
-                                    <div className="book-title">{book.title}</div>
-                                  <div className="book-authors">{book.authors}</div>
-                                </div>
-                              </li>
-                    )
-                }
-
-                    </ol>
-                  </div>
-                </div>
-                <div className="bookshelf">
-                  <h2 className="bookshelf-title">Read</h2>
-                  <div className="bookshelf-books">
-                    <ol className="books-grid">
-
-                    {this.state.books && this.state.books.filter((book)=> book.shelf === "read").map((book)=>
-                              <li>
-                                  <div className="book">
-                                    <div className="book-top">
-                                      <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}></div>
-                                      <div className="book-shelf-changer">
-                                          <select key={book.id}>
-                                              <option value="none" disabled>Move to...</option>
-                                              <option value={book.shelf}>{book.shelf}</option>
-                                              <option value="wantToRead">Want to Read</option>
-                                              <option value="read">Read</option>
-                                              <option value="none">None</option>
-                                            </select>
-                                      </div>
-                                    </div>
-                                    <div className="book-title">{book.title}</div>
-                                  <div className="book-authors">{book.authors}</div>
-                                </div>
-                              </li>
-                    )
-                    }
-
-                    </ol>
-                  </div>
-                </div>
-              </div>
-            </div>
             <div className="open-search">
               <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
             </div>
