@@ -6,6 +6,11 @@ import ListBooks from './ListBooks.js'
 
 
 class BooksApp extends React.Component {
+
+
+
+
+
   state = {
     /**
      * TODO: Instead of using this state variable to keep track of which page
@@ -16,6 +21,7 @@ class BooksApp extends React.Component {
     showSearchPage: false,
     books: []
 
+
   }
 
   componentDidMount() {
@@ -24,7 +30,9 @@ class BooksApp extends React.Component {
   })
 }
 
-
+handleChange(event) {
+    this.setState({value: event.target.value})
+  }
 
   render() {
 
@@ -68,6 +76,7 @@ class BooksApp extends React.Component {
                 books={this.state.books}
                 shelf= "currentlyReading"
                 shelfTitle = "Currently Reading"
+
               />
               <ListBooks
                 books={this.state.books}
