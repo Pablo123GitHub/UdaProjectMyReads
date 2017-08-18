@@ -3,48 +3,65 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import escapeRegExp from 'escape-string-regexp'
 import sortBy from 'sort-by'
+import * as BooksAPI from './BooksAPI'
 
 
 class SelectShelf extends Component {
+  state = {
 
-  constructor(props) {
-     super(props)
-     this.state = {value: 'currentlyReading'}
+  }
 
-     this.handleChange = this.handleChange.bind(this)
 
-   }
-
-   handleChange(event) {
-     this.setState({value: event.target.value})
-   }
 
 
 render() {
 
   return (
     <div className="book-shelf-changer">
-    <select value={this.state.value} onChange={this.handleChange}>
-    <option value="none" disabled>Move to...</option>
-    <option value="currentlyReading"> Currently Reading</option>
-    <option value="wantToRead">Want to Read</option>
-    <option value="read">Read</option>
-    <option value="none">None</option>
-      </select>
+          <select value={this.props.shelf} onChange={this.props.handleChangeField} >
+          <option value="none" disabled>Move to...</option>
+            <option value="none">None</option>
+          <option value="currentlyReading"> Currently Reading</option>
+          <option value="wantToRead">Want to Read</option>
+          <option value="read">Read</option>
+            <option value="none">None</option>
+
+            </select>
+
+
     </div>
   )
+
 }
-
-
-
 }
 
 class ListBooks extends Component {
 
-    // const { books } = this.props
+  constructor(props) {
+     super(props)
+     this.handleChange = this.handleChange.bind(this)
 
+   }
+
+
+    state = {
+
+ shelf: ''
+
+    }
+    handleChange(event) {
+
+         this.setState({shelf: event.target.value})
+         event.preventDefault()
+      console.log(event.target)
+      console.log(this)
+
+
+
+    }
 
   render () {
+
 
 
 
@@ -59,7 +76,9 @@ class ListBooks extends Component {
               <div className="book">
                 <div className="book-top">
                   <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.smallThumbnail})` }}></div>
-     <SelectShelf/>
+     <SelectShelf books={this.props.books} keyBook = {book} shelf={this.state.shelf}
+     handleChangeField={this.handleChange} /> 
+
                 </div>
                 <div className="book-title">{book.title}</div>
               <div className="book-authors">{book.authors}</div>
@@ -68,14 +87,10 @@ class ListBooks extends Component {
 
 )
 
-
 }
 </ol>
 </div>
 </div>
-
-
-
     </div>
 
     )
